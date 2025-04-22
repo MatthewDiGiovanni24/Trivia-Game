@@ -1,6 +1,6 @@
 import { View } from "react-native";
 
-export default function game({ route, navigation }) {
+export default function setup({ route, navigation }) {
     return (
         <View style={{ paddingTop: 50 }}>
 
