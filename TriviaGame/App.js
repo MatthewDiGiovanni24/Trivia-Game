@@ -1,8 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import home from './home'
-import stats from './stats'
-import game from './game'
-import setup from './setup'
+import Home from './home'
+import Stats from './stats'
+import Game from './game'
+import Setup from './setup'
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -14,10 +14,10 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Home'>
-        <Stack.Screen name='Home' component={home} />
-        <Stack.Screen name='game' component={game} />
-        <Stack.Screen name='stats' component={stats} />
-        <Stack.Screen name='setup' component={setup} />
+        <Stack.Screen name='Home' component={Home} />
+        <Stack.Screen name='Game' component={Game} />
+        <Stack.Screen name='Stats' component={Stats} />
+        <Stack.Screen name='Setup' component={Setup} />
       </Stack.Navigator>
     </NavigationContainer>
   );

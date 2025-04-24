@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Text, StyleSheet } from "react-native";
+import { View, TextInput, Text, StyleSheet, Button } from "react-native";
 import { Dropdown } from 'react-native-element-dropdown';
 
 const category = [
@@ -58,8 +58,7 @@ const difficulty = [
     { label: 'Hard', value: '&difficulty=hard' },
 ];
 
-const DropdownCategory = ({ param }) => {
-    const [value, setValue] = useState(null);
+const DropdownCategory = ({ param, value, setValue }) => {
     const [isFocus, setIsFocus] = useState(false);
 
     const renderLabel = () => {
@@ -99,15 +98,16 @@ const DropdownCategory = ({ param }) => {
                     setIsFocus(false);
                 }}
             />
-
         </View>
     );
 };
+
 
 export default function setup({ route, navigation }) {
     const [questionAmount, setQuestionAmount] = useState(10);
     const [category, setCategory] = useState("");
     const [difficulty, setDifficulty] = useState("");
+
     return (
         <View style={{ paddingTop: 50 }}>
             <Text>Number of Questions</Text>
@@ -115,18 +115,27 @@ export default function setup({ route, navigation }) {
                 style={{ height: 40 }}
                 keyboardType="numeric"
                 placeholder="Enter Question Amount"
-                onChangeText={text => {
-                    setQuestionAmount(text);
-                }}
+                onChangeText={text => setQuestionAmount(text)}
             />
 
             <Text>Category</Text>
-            <DropdownCategory param={0} />
+            <DropdownCategory param={0} value={category} setValue={setCategory} />
+
             <Text>Difficulty</Text>
-            <DropdownCategory param={1} />
+            <DropdownCategory param={1} value={difficulty} setValue={setDifficulty} />
+
+            <Button
+                title="Start"
+                onPress={() => navigation.navigate("Game", {
+                    numberOfQuestions: questionAmount,
+                    categoryChoice: category,
+                    difficultyChoice: difficulty
+                })}
+            />
         </View>
     );
 }
+
 
 const styles = StyleSheet.create({
     container: {
