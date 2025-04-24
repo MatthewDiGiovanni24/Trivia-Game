@@ -114,7 +114,7 @@ export default function setup({ route, navigation }) {
             <TextInput
                 style={{ height: 40 }}
                 keyboardType="numeric"
-                placeholder="Enter Question Amount"
+                placeholder="Enter Question Amount (1-50)"
                 onChangeText={text => setQuestionAmount(text)}
             />
 
@@ -126,12 +126,19 @@ export default function setup({ route, navigation }) {
 
             <Button
                 title="Start"
-                onPress={() => navigation.navigate("Game", {
-                    numberOfQuestions: questionAmount,
-                    categoryChoice: category,
-                    difficultyChoice: difficulty
-                })}
+                onPress={() => {
+                    if (Number.isInteger(questionAmount) && questionAmount >= 1 && questionAmount <= 50) {
+                        navigation.navigate("Game", {
+                            numberOfQuestions: num,
+                            categoryChoice: category,
+                            difficultyChoice: difficulty
+                        });
+                    } else {
+                        alert("Please enter an integer between 1 and 50 for number of questions");
+                    }
+                }}
             />
+
         </View>
     );
 }
