@@ -103,19 +103,37 @@ const DropdownCategory = ({ param, value, setValue }) => {
 };
 
 
-export default function setup({ route, navigation }) {
+export default function Setup({ route, navigation }) {
     const [questionAmount, setQuestionAmount] = useState(10);
     const [category, setCategory] = useState("");
     const [difficulty, setDifficulty] = useState("");
+
+    const getQuestions = () => {
+        const link = `https://opentdb.com/api.php?amount=${questionAmount}${category || ""}${difficulty || ""}&type=multiple`;
+        
+        fetch(link)
+            .then((response) => response.json())
+            .then((json) => {
+                navigation.navigate("Game", {
+                    questions: json.results
+                });
+            })
+            .catch((error) => {
+                console.error(error);
+                alert("Failed to load questions. Please try again.");
+            });
+    };
+    
 
     return (
         <View style={{ paddingTop: 50 }}>
             <Text>Number of Questions</Text>
             <TextInput
-                style={{ height: 40 }}
+                style={{ height: 40, borderBottomWidth: 1 }}
                 keyboardType="numeric"
                 placeholder="Enter Question Amount (1-50)"
                 onChangeText={text => setQuestionAmount(text)}
+                value={String(questionAmount)}
             />
 
             <Text>Category</Text>
@@ -124,21 +142,17 @@ export default function setup({ route, navigation }) {
             <Text>Difficulty</Text>
             <DropdownCategory param={1} value={difficulty} setValue={setDifficulty} />
 
+
             <Button
                 title="Start"
                 onPress={() => {
-                    if (Number.isInteger(questionAmount) && questionAmount >= 1 && questionAmount <= 50) {
-                        navigation.navigate("Game", {
-                            numberOfQuestions: num,
-                            categoryChoice: category,
-                            difficultyChoice: difficulty
-                        });
+                    if (questionAmount >= 1 && questionAmount <= 50) {
+                        getQuestions();
                     } else {
                         alert("Please enter an integer between 1 and 50 for number of questions");
                     }
                 }}
             />
-
         </View>
     );
 }

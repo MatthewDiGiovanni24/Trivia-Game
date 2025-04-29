@@ -1,7 +1,7 @@
 import { Button } from "react-native";
 import { View } from "react-native";
 
-export default function home({ route, navigation }) {
+export default function Home({ route, navigation }) {
     return (
         <View style={{ paddingTop: 50 }}>
             <Button title="Play"

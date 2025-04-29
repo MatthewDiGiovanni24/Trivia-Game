@@ -1,32 +1,84 @@
-import { View, Button } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+import he from "he";
 
-export default function game({ route, navigation }) {
-    const { numberOfQuestions, categoryChoice, difficultyChoice } = route.params;
+export default function Game({ route, navigation }) {
+    const { questions: initialQuestions } = route.params;
 
-    function getQuestions() {
-        let link = `https://opentdb.com/api.php?amount=${numberOfQuestions}${categoryChoice || ""}${difficultyChoice || ""}&type=multiple`;
-        console.log(link)
-        fetch(link)
-            .then((response) => response.json())
-            .then((json) => {
-                console.log(json);
-                console.log(json.results)
-                // console.log(json.results[0].question)
-                // console.log(json.results[0].correct_answer)
-                // console.log(json.results[0].incorrect_answers)
-                // console.log(json.results[1].question)
-                // console.log(json.results[1].correct_answer)
-                // console.log(json.results[1].incorrect_answers)
+    const [questions, setQuestions] = useState(initialQuestions);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [answers, setAnswers] = useState([]);
+    const [selectedAnswer, setSelectedAnswer] = useState(null);
+    const [isCorrectAnswer, setIsCorrectAnswer] = useState(null);
+    const [isDisabled, setIsDisabled] = useState(false);
 
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    };
+    useEffect(() => {
+        if (initialQuestions.length > 0) {
+            setAnswers(shuffleAnswers(initialQuestions[0]));
+        }
+    }, []);
+
+    function shuffleAnswers(question) {
+        const allAnswers = [...question.incorrect_answers, question.correct_answer];
+        return allAnswers.sort(() => Math.random() - 0.5);
+    }
 
     return (
-        <View style={{ paddingTop: 50 }}>
-            <Button title="Get Another Joke" onPress={() => getQuestions()} />
+        <View style={{ paddingTop: 50, paddingHorizontal: 20 }}>
+            {questions.length > 0 && (
+                <View style={{ marginTop: 30 }}>
+                    <Text style={{ fontSize: 18, fontWeight: "bold", marginBottom: 20 }}>
+                        {he.decode(questions[currentIndex].question)}
+                    </Text>
+
+                    {answers.map((answer, index) => (
+                        <TouchableOpacity
+                            key={index}
+                            disabled={isDisabled}
+                            style={{
+                                backgroundColor:
+                                    selectedAnswer
+                                        ? answer === questions[currentIndex].correct_answer
+                                            ? "green"
+                                            : answer === selectedAnswer
+                                                ? "red"
+                                                : "#eee"
+                                        : "#eee",
+                                padding: 12,
+                                marginVertical: 6,
+                                borderRadius: 8,
+                                opacity: isDisabled && selectedAnswer !== answer ? 0.6 : 1,
+                            }}
+                            onPress={() => {
+                                if (isDisabled) return;
+                                const correct = questions[currentIndex].correct_answer;
+                                const isCorrect = answer === correct;
+
+                                setSelectedAnswer(answer);
+                                setIsCorrectAnswer(isCorrect);
+                                setIsDisabled(true);
+
+                                setTimeout(() => {
+                                    setSelectedAnswer(null);
+                                    setIsCorrectAnswer(null);
+                                    setIsDisabled(false);
+
+                                    const nextIndex = currentIndex + 1;
+                                    if (nextIndex < questions.length) {
+                                        setCurrentIndex(nextIndex);
+                                        setAnswers(shuffleAnswers(questions[nextIndex]));
+                                    } else {
+                                        alert("Quiz Finished!");
+                                        navigation.navigate("Home");
+                                    }
+                                }, 1000);
+                            }}
+                        >
+                            <Text>{he.decode(answer)}</Text>
+                        </TouchableOpacity>
+                    ))}
+                </View>
+            )}
         </View>
     );
 }
