@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React from "react";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 
 export default function Summary({ route, navigation }) {
   const { totalQuestions, correctAnswers, timeSpent } = route.params;
@@ -47,56 +47,55 @@ export default function Summary({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: "#f0f4f8",
-      paddingTop: 60,
-      paddingHorizontal: 20,
-    },
-    title: {
-      fontSize: 28,
-      fontWeight: "bold",
-      color: "#333",
-      textAlign: "center",
-      marginBottom: 30,
-    },
-    card: {
-      backgroundColor: "#fff",
-      borderRadius: 12,
-      padding: 15,
-      marginVertical: 8,
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.1,
-      shadowRadius: 4,
-      elevation: 3,
-    },
-    label: {
-      fontSize: 16,
-      color: "#555",
-    },
-    value: {
-      fontSize: 18,
-      fontWeight: "bold",
-      color: "#222",
-      marginTop: 4,
-    },
-    button: {
-      backgroundColor: "#00b894",
-      paddingVertical: 15,
-      borderRadius: 30,
-      marginTop: 20,
-      alignItems: "center",
-      shadowColor: "#000",
-      shadowOffset: { width: 0, height: 3 },
-      shadowOpacity: 0.2,
-      shadowRadius: 4,
-      elevation: 5,
-    },
-    buttonText: {
-      color: "#fff",
-      fontSize: 18,
-      fontWeight: "bold",
-    },
-  });
-  
+  container: {
+    flex: 1,
+    backgroundColor: "#f0f4f8",
+    paddingTop: 60,
+    paddingHorizontal: 20,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "#333",
+    textAlign: "center",
+    marginBottom: 30,
+  },
+  card: {
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    padding: 15,
+    marginVertical: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  label: {
+    fontSize: 16,
+    color: "#555",
+  },
+  value: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#222",
+    marginTop: 4,
+  },
+  button: {
+    backgroundColor: "#00b894",
+    paddingVertical: 15,
+    borderRadius: 30,
+    marginTop: 20,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+});

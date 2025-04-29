@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import he from "he";
 
 export default function Game({ route, navigation }) {
@@ -24,12 +25,33 @@ export default function Game({ route, navigation }) {
     return allAnswers.sort(() => Math.random() - 0.5);
   }
 
-  const handleAnswerPress = (answer) => {
+  const handleAnswerPress = async (answer) => {
     if (isDisabled) return;
 
     const correct = questions[currentIndex].correct_answer;
     const isCorrect = answer === correct;
+
     if (isCorrect) setScore((prev) => prev + 1);
+
+    if (isCorrect) {
+      const corr = await AsyncStorage.getItem(
+        `${questions[currentIndex].category}${questions[currentIndex].difficulty}Correct`
+      );
+      const prevCorr = parseInt(corr || "0", 10);
+      await AsyncStorage.setItem(
+        `${questions[currentIndex].category}${questions[currentIndex].difficulty}Correct`,
+        String(prevCorr + 1)
+      );
+    } else {
+      const wrong = await AsyncStorage.getItem(
+        `${questions[currentIndex].category}${questions[currentIndex].difficulty}Wrong`
+      );
+      const prevWrong = parseInt(wrong || "0", 10);
+      await AsyncStorage.setItem(
+        `${questions[currentIndex].category}${questions[currentIndex].difficulty}Wrong`,
+        String(prevWrong + 1)
+      );
+    }
 
     setSelectedAnswer(answer);
     setIsDisabled(true);
@@ -82,7 +104,9 @@ export default function Game({ route, navigation }) {
                 style={[
                   styles.answerButton,
                   { backgroundColor: backgroundColor },
-                  isDisabled && !isSelected && !isCorrect ? { opacity: 0.6 } : {},
+                  isDisabled && !isSelected && !isCorrect
+                    ? { opacity: 0.6 }
+                    : {},
                 ]}
                 onPress={() => handleAnswerPress(answer)}
               >

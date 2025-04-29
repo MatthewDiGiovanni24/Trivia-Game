@@ -1,40 +1,44 @@
-
-import React, { useState } from 'react';
-import { View, TextInput, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { Dropdown } from 'react-native-element-dropdown';
-
+import React, { useState } from "react";
+import {
+  View,
+  TextInput,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
+import { Dropdown } from "react-native-element-dropdown";
 
 const categoryOptions = [
-  { label: 'General Knowledge', value: '&category=9' },
-  { label: 'Entertainment: Books', value: '&category=10' },
-  { label: 'Entertainment: Film', value: '&category=11' },
-  { label: 'Entertainment: Music', value: '&category=12' },
-  { label: 'Entertainment: Musicals & Theatres', value: '&category=13' },
-  { label: 'Entertainment: Television', value: '&category=14' },
-  { label: 'Entertainment: Video Games', value: '&category=15' },
-  { label: 'Entertainment: Board Games', value: '&category=16' },
-  { label: 'Science & Nature', value: '&category=17' },
-  { label: 'Science: Computers', value: '&category=18' },
-  { label: 'Science: Mathematics', value: '&category=19' },
-  { label: 'Mythology', value: '&category=20' },
-  { label: 'Sports', value: '&category=21' },
-  { label: 'Geography', value: '&category=22' },
-  { label: 'History', value: '&category=23' },
-  { label: 'Politics', value: '&category=24' },
-  { label: 'Art', value: '&category=25' },
-  { label: 'Celebrities', value: '&category=26' },
-  { label: 'Animals', value: '&category=27' },
-  { label: 'Vehicles', value: '&category=28' },
-  { label: 'Entertainment: Comics', value: '&category=29' },
-  { label: 'Science: Gadgets', value: '&category=30' },
-  { label: 'Entertainment: Japanese Anime & Manga', value: '&category=31' },
-  { label: 'Entertainment: Cartoons & Animations', value: '&category=32' }
+  { label: "General Knowledge", value: "&category=9" },
+  { label: "Entertainment: Books", value: "&category=10" },
+  { label: "Entertainment: Film", value: "&category=11" },
+  { label: "Entertainment: Music", value: "&category=12" },
+  { label: "Entertainment: Musicals & Theatres", value: "&category=13" },
+  { label: "Entertainment: Television", value: "&category=14" },
+  { label: "Entertainment: Video Games", value: "&category=15" },
+  { label: "Entertainment: Board Games", value: "&category=16" },
+  { label: "Science & Nature", value: "&category=17" },
+  { label: "Science: Computers", value: "&category=18" },
+  { label: "Science: Mathematics", value: "&category=19" },
+  { label: "Mythology", value: "&category=20" },
+  { label: "Sports", value: "&category=21" },
+  { label: "Geography", value: "&category=22" },
+  { label: "History", value: "&category=23" },
+  { label: "Politics", value: "&category=24" },
+  { label: "Art", value: "&category=25" },
+  { label: "Celebrities", value: "&category=26" },
+  { label: "Animals", value: "&category=27" },
+  { label: "Vehicles", value: "&category=28" },
+  { label: "Entertainment: Comics", value: "&category=29" },
+  { label: "Science: Gadgets", value: "&category=30" },
+  { label: "Entertainment: Japanese Anime & Manga", value: "&category=31" },
+  { label: "Entertainment: Cartoons & Animations", value: "&category=32" },
 ];
 
 const difficultyOptions = [
-  { label: 'Easy', value: '&difficulty=easy' },
-  { label: 'Medium', value: '&difficulty=medium' },
-  { label: 'Hard', value: '&difficulty=hard' },
+  { label: "Easy", value: "&difficulty=easy" },
+  { label: "Medium", value: "&difficulty=medium" },
+  { label: "Hard", value: "&difficulty=hard" },
 ];
 
 const DropdownCategory = ({ type, value, setValue }) => {
@@ -43,7 +47,7 @@ const DropdownCategory = ({ type, value, setValue }) => {
 
   return (
     <Dropdown
-      style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+      style={[styles.dropdown, isFocus && { borderColor: "blue" }]}
       placeholderStyle={styles.placeholderStyle}
       selectedTextStyle={styles.selectedTextStyle}
       inputSearchStyle={styles.inputSearchStyle}
@@ -52,12 +56,12 @@ const DropdownCategory = ({ type, value, setValue }) => {
       maxHeight={300}
       labelField="label"
       valueField="value"
-      placeholder={!isFocus ? `Select ${type}` : '...'}
+      placeholder={!isFocus ? `Select ${type}` : "..."}
       searchPlaceholder="Search..."
       value={value}
       onFocus={() => setIsFocus(true)}
       onBlur={() => setIsFocus(false)}
-      onChange={item => {
+      onChange={(item) => {
         setValue(item.value);
         setIsFocus(false);
       }}
@@ -95,24 +99,36 @@ export default function Setup({ navigation }) {
         style={styles.input}
         keyboardType="numeric"
         placeholder="Enter a number 1-50"
-        onChangeText={text => setQuestionAmount(text)}
+        onChangeText={(text) => setQuestionAmount(text)}
         value={String(questionAmount)}
       />
 
       <Text style={styles.label}>Category</Text>
-      <DropdownCategory type="category" value={category} setValue={setCategory} />
+      <DropdownCategory
+        type="category"
+        value={category}
+        setValue={setCategory}
+      />
 
       <Text style={styles.label}>Difficulty</Text>
-      <DropdownCategory type="difficulty" value={difficulty} setValue={setDifficulty} />
+      <DropdownCategory
+        type="difficulty"
+        value={difficulty}
+        setValue={setDifficulty}
+      />
 
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
-            if (Number(questionAmount) >= 1 && Number(questionAmount) <= 50 && !isNaN(questionAmount)) {
-                getQuestions();
-                } else {
-                alert("Please enter an integer between 1 and 50");
-                }
+          if (
+            Number(questionAmount) >= 1 &&
+            Number(questionAmount) <= 50 &&
+            !isNaN(questionAmount)
+          ) {
+            getQuestions();
+          } else {
+            alert("Please enter an integer between 1 and 50");
+          }
         }}
       >
         <Text style={styles.buttonText}>Start</Text>
@@ -152,7 +168,7 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     height: 50,
-    borderColor: 'gray',
+    borderColor: "gray",
     borderWidth: 0.5,
     borderRadius: 8,
     paddingHorizontal: 10,
