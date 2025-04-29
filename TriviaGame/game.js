@@ -4,7 +4,6 @@ export default function game({ route, navigation }) {
     const { numberOfQuestions, categoryChoice, difficultyChoice } = route.params;
 
     function getQuestions() {
-
         let link = `https://opentdb.com/api.php?amount=${numberOfQuestions}${categoryChoice || ""}${difficultyChoice || ""}&type=multiple`;
         console.log(link)
         fetch(link)
