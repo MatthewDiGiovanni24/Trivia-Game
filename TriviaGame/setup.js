@@ -120,16 +120,18 @@ export default function Setup({ navigation }) {
       <TouchableOpacity
         style={styles.button}
         onPress={() => {
-          if (
-            Number(questionAmount) >= 1 &&
-            Number(questionAmount) <= 50 &&
-            !isNaN(questionAmount)
-          ) {
-            getQuestions();
-          } else {
+          const num = Number(questionAmount);
+          const isInt = Number.isInteger(num);
+        
+          if (!isInt || isNaN(num)) {
             alert("Please enter an integer between 1 and 50");
+          } else if (num < 1 || num > 50) {
+            alert("Please enter a number between 1 and 50");
+          } else {
+            getQuestions();
           }
         }}
+        
       >
         <Text style={styles.buttonText}>Start</Text>
       </TouchableOpacity>
