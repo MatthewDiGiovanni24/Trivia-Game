@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function StatsScreen() {
+export default function StatsScreen({ navigation }) {
   const categories = [
     "General Knowledge",
     "Entertainment: Books",
@@ -74,6 +74,12 @@ export default function StatsScreen() {
           ))}
         </View>
       ))}
+      <TouchableOpacity
+        style={[styles.button, { backgroundColor: "#4e54c8" }]}
+        onPress={() => navigation.navigate("Home")}
+      >
+        <Text style={styles.buttonText}>Back</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
@@ -115,5 +121,22 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#333",
     fontWeight: "500",
+  },
+  button: {
+    backgroundColor: "#00b894",
+    paddingVertical: 15,
+    paddingHorizontal: 50,
+    borderRadius: 30,
+    marginVertical: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
   },
 });
